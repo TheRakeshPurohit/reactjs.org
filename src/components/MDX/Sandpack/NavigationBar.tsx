@@ -15,7 +15,7 @@ import {
   FileTabs,
   useSandpack,
   useSandpackNavigation,
-} from '@codesandbox/sandpack-react';
+} from '@codesandbox/sandpack-react/unstyled';
 import {OpenInCodeSandboxButton} from './OpenInCodeSandboxButton';
 import {ResetButton} from './ResetButton';
 import {DownloadButton} from './DownloadButton';
@@ -115,7 +115,10 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
 
   return (
     <div className="bg-wash dark:bg-card-dark flex justify-between items-center relative z-10 border-b border-border dark:border-border-dark rounded-t-lg text-lg">
+      {/* If Prettier reformats this block, the two @ts-ignore directives will no longer be adjacent to the problematic lines, causing TypeScript errors */}
+      {/* prettier-ignore */}
       <div className="flex-1 grow min-w-0 px-4 lg:px-6">
+        {/* @ts-ignore: the Listbox type from '@headlessui/react' is incompatible with JSX in React 19 */}
         <Listbox value={activeFile} onChange={setActiveFile}>
           <div ref={containerRef}>
             <div className="relative overflow-hidden">
@@ -129,8 +132,10 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
                   'w-[fit-content]',
                   showDropdown ? 'invisible' : ''
                 )}>
+                {/* @ts-ignore: the FileTabs type from '@codesandbox/sandpack-react/unstyled' is incompatible with JSX in React 19 */}
                 <FileTabs />
               </div>
+              {/* @ts-ignore: the Listbox type from '@headlessui/react' is incompatible with JSX in React 19 */}
               <Listbox.Button as={Fragment}>
                 {({open}) => (
                   // If tabs don't fit, display the dropdown instead.
@@ -138,7 +143,7 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
                   // space that's taken by the (invisible) tab list.
                   <button
                     className={cn(
-                      'absolute top-0 left-[2px]',
+                      'absolute top-0 start-[2px]',
                       !showDropdown && 'invisible'
                     )}>
                     <span
@@ -148,7 +153,7 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
                       style={{maxWidth: '160px'}}>
                       {getFileName(activeFile)}
                       {isMultiFile && (
-                        <span className="ml-2">
+                        <span className="ms-2">
                           <IconChevron
                             displayDirection={open ? 'up' : 'down'}
                           />
@@ -160,10 +165,10 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
               </Listbox.Button>
             </div>
           </div>
-          {isMultiFile && showDropdown && (
-            <Listbox.Options className="absolute mt-0.5 bg-card dark:bg-card-dark px-2 left-0 right-0 mx-0 rounded-b-lg border-1 border-border dark:border-border-dark rounded-sm shadow-md">
-              {visibleFiles.map((filePath: string) => (
-                <Listbox.Option key={filePath} value={filePath} as={Fragment}>
+          {/* @ts-ignore: the Listbox type from '@headlessui/react' is incompatible with JSX in React 19 */}
+          {isMultiFile && showDropdown && (<Listbox.Options className="absolute mt-0.5 bg-card dark:bg-card-dark px-2 inset-x-0 mx-0 rounded-b-lg border-1 border-border dark:border-border-dark rounded-sm shadow-md">
+              {/* @ts-ignore: the Listbox type from '@headlessui/react' is incompatible with JSX in React 19 */}
+              {visibleFiles.map((filePath: string) => (<Listbox.Option key={filePath} value={filePath} as={Fragment}>
                   {({active}) => (
                     <li
                       className={cn(
@@ -180,7 +185,7 @@ export function NavigationBar({providedFiles}: {providedFiles: Array<string>}) {
         </Listbox>
       </div>
       <div
-        className="px-3 flex items-center justify-end text-right"
+        className="px-3 flex items-center justify-end text-start"
         translate="yes">
         <DownloadButton providedFiles={providedFiles} />
         <ResetButton onReset={handleReset} />
